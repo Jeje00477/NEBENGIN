@@ -1,0 +1,11 @@
+# Frontend
+node_modules/
+dist/
+.env
+
+# Backend
+nebengin-backend/vendor/
+nebengin-backend/.env
+nebengin-backend/storage/logs/
+nebengin-backend/storage/framework/
+nebengin-backend/storage/app/
