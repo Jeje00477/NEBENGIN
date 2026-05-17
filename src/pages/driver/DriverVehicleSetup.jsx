@@ -19,13 +19,13 @@ export default function DriverVehicleSetup() {
     e.preventDefault();
     setLoading(true);
     
-    const payload = {
-      jenis_kendaraan: jenisKendaraan,
-      merk_kendaraan: merkKendaraan,
-      warna_kendaraan: warnaKendaraan,
-      nomor_polisi: nomorPolisi.toUpperCase(),
-      kapasitas_kursi: kapasitasKursi
-    };
+   const payload = {
+  vehicle_jenis: jenisKendaraan,
+  vehicle_merk: merkKendaraan,
+  vehicle_warna: warnaKendaraan,
+  vehicle_plat_nomor: nomorPolisi.toUpperCase(),
+  kapasitas_kursi: kapasitasKursi
+};
 
     await saveDriverVehicle(payload);
     setLoading(false);
