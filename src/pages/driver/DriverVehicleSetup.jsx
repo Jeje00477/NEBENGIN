@@ -27,8 +27,7 @@ export default function DriverVehicleSetup() {
   kapasitas_kursi: kapasitasKursi
 };
 
-    await saveDriverVehicle(payload);
-    await getDriverProfile();   
+    await saveDriverVehicle(payload);  
     navigate('/driver/profile');
   };
 
