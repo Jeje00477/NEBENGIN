@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Trip;
 use App\Models\DriverProfile;
+use App\Models\RiderRequest;
 use Illuminate\Http\Request;
 
 class TripController extends Controller
@@ -23,6 +24,13 @@ class TripController extends Controller
         $trip->status = 'selesai';
         $trip->completed_at = now();
         $trip->save();
+
+        // Update associated RiderRequest status to selesai
+        $riderReq = RiderRequest::find($trip->request_id);
+        if ($riderReq) {
+            $riderReq->status = 'selesai';
+            $riderReq->save();
+        }
 
         DriverProfile::where('driver_id', $request->user()->id)->increment('total_trips');
 
