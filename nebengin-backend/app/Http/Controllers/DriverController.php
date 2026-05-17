@@ -17,22 +17,27 @@ class DriverController extends Controller
     }
 
     public function saveVehicle(Request $request)
-    {
-        $request->validate([
-            'vehicle_merk' => 'required|string',
-            'vehicle_plat_nomor' => 'required|string',
-            'vehicle_warna' => 'required|string',
-            'vehicle_jenis' => 'nullable|string',
-            'kapasitas_kursi' => 'nullable|integer'
-        ]);
+{
+    $request->validate([
+        'vehicle_merk' => 'required|string',
+        'vehicle_plat_nomor' => 'required|string',
+        'vehicle_warna' => 'required|string',
+        'vehicle_jenis' => 'nullable|string',
+        'kapasitas_kursi' => 'nullable|integer'
+    ]);
 
-        DriverProfile::updateOrCreate(
-            ['driver_id' => $request->user()->id],
-            $request->only('vehicle_merk', 'vehicle_plat_nomor', 'vehicle_warna', 'vehicle_jenis', 'kapasitas_kursi')
-        );
-
-        return response()->json(['success' => true]);
-    }
+    $profile = DriverProfile::updateOrCreate(
+        ['driver_id' => $request->user()->id],
+        $request->only(
+            'vehicle_merk',
+            'vehicle_plat_nomor',
+            'vehicle_warna',
+            'vehicle_jenis',
+            'kapasitas_kursi'
+        )
+    );
+    return response()->json($profile->fresh());
+}
 
     public function toggleAvailability(Request $request)
     {
