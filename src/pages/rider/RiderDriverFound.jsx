@@ -60,8 +60,8 @@ export default function RiderDriverFound() {
           </div>
 
           <div className="bg-gray-50 rounded-xl p-4 mb-4 text-sm text-gray-700 font-medium">
-            <p>{driver.vehicle.jenis_kendaraan} &middot; {driver.vehicle.merk_kendaraan}</p>
-            <p className="mt-1">{driver.vehicle.warna_kendaraan} &middot; <span className="font-bold">{driver.vehicle.nomor_polisi}</span></p>
+            <p>{driver?.vehicle?.jenis_kendaraan || 'Kendaraan'} &middot; {driver?.vehicle?.merk_kendaraan || '-'}</p>
+            <p className="mt-1">{driver?.vehicle?.warna_kendaraan || '-'} &middot; <span className="font-bold">{driver?.vehicle?.nomor_polisi || '-'}</span></p>
           </div>
 
           <div className="flex justify-center gap-2 mb-4">

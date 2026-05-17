@@ -64,15 +64,15 @@ export default function RiderActiveTrip() {
       <div className="flex-1 px-4 py-6 -mt-6 relative z-10">
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 mb-6">
           <div className="flex items-center gap-4 mb-4 pb-4 border-b border-gray-50">
-            <Avatar src={trip.driver.avatar_url} nama={trip.driver.nama} size="md" />
+            <Avatar src={trip.driver?.avatar_url} nama={trip.driver?.nama} size="md" />
             <div className="flex-1 min-w-0">
-              <h2 className="font-bold text-gray-900 truncate">{trip.driver.nama}</h2>
+              <h2 className="font-bold text-gray-900 truncate">{trip.driver?.nama}</h2>
               <p className="text-xs text-gray-500 mt-0.5">
-                {trip.driver.vehicle.merk_kendaraan} &middot; {trip.driver.vehicle.warna_kendaraan}
+                {trip.driver?.vehicle?.merk_kendaraan || 'Kendaraan'} &middot; {trip.driver?.vehicle?.warna_kendaraan || 'Warna'}
               </p>
             </div>
             <div className="text-right">
-              <p className="text-sm font-bold text-gray-900 bg-gray-100 px-2 py-1 rounded-md">{trip.driver.vehicle.nomor_polisi}</p>
+              <p className="text-sm font-bold text-gray-900 bg-gray-100 px-2 py-1 rounded-md">{trip.driver?.vehicle?.nomor_polisi || '-'}</p>
             </div>
           </div>
 
