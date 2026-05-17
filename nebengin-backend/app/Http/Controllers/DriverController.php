@@ -11,10 +11,26 @@ use Illuminate\Support\Facades\DB;
 class DriverController extends Controller
 {
     public function profile(Request $request)
-    {
-        $user = $request->user()->load('driverProfile');
-        return response()->json($user->driverProfile);
+{
+    $profile = DriverProfile::where('driver_id', $request->user()->id)->first();
+
+    if (!$profile) {
+        return response()->json(null);
     }
+
+    return response()->json([
+        'id' => $profile->id,
+        'driver_id' => $profile->driver_id,
+        'is_available' => $profile->is_available,
+        'vehicle_merk' => $profile->vehicle_merk,
+        'vehicle_plat_nomor' => $profile->vehicle_plat_nomor,
+        'vehicle_warna' => $profile->vehicle_warna,
+        'vehicle_jenis' => $profile->vehicle_jenis,
+        'kapasitas_kursi' => $profile->kapasitas_kursi,
+        'rating' => $profile->rating,
+        'total_trips' => $profile->total_trips,
+    ]);
+}
 
     public function saveVehicle(Request $request)
 {
