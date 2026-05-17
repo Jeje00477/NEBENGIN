@@ -31,7 +31,7 @@ export default function RiderActiveTrip() {
     setLoadingComplete(true);
     await completeRiderTrip({ tripId: trip.id });
     setLoadingComplete(false);
-    navigate('/rider/trip/complete', { state: { driver: trip.driver } });
+    navigate('/rider/trip/complete', { state: { driver: trip.driver, tripId: trip.id } });
   };
 
   if (!trip) return (

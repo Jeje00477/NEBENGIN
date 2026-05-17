@@ -27,8 +27,9 @@ export default function DriverTripComplete() {
     // Submit all ratings
     for (const rider of riders) {
       const ratingData = ratings[rider.id] || { nilai: 5, komentar: '' }; // default 5 star if untouched
+      const realTripId = rider.trip_id || 501;
       await submitRating({ 
-        tripId: 501, 
+        tripId: realTripId, 
         nilai: ratingData.nilai || 5, 
         komentar: ratingData.komentar || '', 
         arah_rating: 'driver_to_rider' 

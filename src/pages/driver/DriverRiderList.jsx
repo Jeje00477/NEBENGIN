@@ -32,8 +32,8 @@ export default function DriverRiderList() {
         getDriverProfile()
       ]);
       if (riderRes.data) setRiders(riderRes.data);
-      if (profileRes.data?.vehicle?.kapasitas_kursi) {
-        setKapasitasKursi(parseInt(profileRes.data.vehicle.kapasitas_kursi));
+      if (profileRes.data && profileRes.data.kapasitas_kursi !== undefined) {
+        setKapasitasKursi(parseInt(profileRes.data.kapasitas_kursi));
       }
       setLoading(false);
     }

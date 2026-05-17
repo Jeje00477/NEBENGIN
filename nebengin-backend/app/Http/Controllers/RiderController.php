@@ -69,10 +69,13 @@ class RiderController extends Controller
                     'nama' => $driver->nama,
                     'avatar_url' => $driver->avatar_url,
                     'nomor_wa' => $driver->nomor_wa,
-                    'vehicle_merk' => $profile->vehicle_merk ?? null,
-                    'vehicle_plat_nomor' => $profile->vehicle_plat_nomor ?? null,
-                    'vehicle_warna' => $profile->vehicle_warna ?? null,
-                    'vehicle_jenis' => $profile->vehicle_jenis ?? null,
+                    'vehicle' => $profile ? [
+                        'jenis_kendaraan' => $profile->vehicle_jenis,
+                        'merk_kendaraan' => $profile->vehicle_merk,
+                        'warna_kendaraan' => $profile->vehicle_warna,
+                        'nomor_polisi' => $profile->vehicle_plat_nomor,
+                        'kapasitas_kursi' => $profile->kapasitas_kursi,
+                    ] : null,
                 ]
             ]);
         }
@@ -124,7 +127,13 @@ class RiderController extends Controller
                 'nama' => $driver->nama,
                 'avatar_url' => $driver->avatar_url,
                 'nomor_wa' => $driver->nomor_wa,
-                'vehicle' => $profile ? $profile->toArray() : null,
+                'vehicle' => $profile ? [
+                    'jenis_kendaraan' => $profile->vehicle_jenis,
+                    'merk_kendaraan' => $profile->vehicle_merk,
+                    'warna_kendaraan' => $profile->vehicle_warna,
+                    'nomor_polisi' => $profile->vehicle_plat_nomor,
+                    'kapasitas_kursi' => $profile->kapasitas_kursi,
+                ] : null,
             ]
         ]);
     }

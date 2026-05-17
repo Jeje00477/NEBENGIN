@@ -11,6 +11,7 @@ export default function RiderTripComplete() {
   const navigate = useNavigate();
   const location = useLocation();
   const driver = location.state?.driver;
+  const tripId = location.state?.tripId || 501;
   
   const [nilai, setNilai] = useState(5);
   const [komentar, setKomentar] = useState('');
@@ -19,7 +20,7 @@ export default function RiderTripComplete() {
   const handleSubmit = async () => {
     setLoading(true);
     await submitRating({ 
-      tripId: 501, 
+      tripId, 
       nilai, 
       komentar, 
       arah_rating: 'rider_to_driver' 
