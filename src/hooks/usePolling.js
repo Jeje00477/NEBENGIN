@@ -2,12 +2,17 @@ import { useEffect, useRef } from 'react';
 
 export function usePolling(asyncFn, intervalMs, stopConditionFn) {
   const savedCallback = useRef(asyncFn);
+  const savedStopCondition = useRef(stopConditionFn);
   const timeoutRef = useRef(null);
   const isRunningRef = useRef(false);
   
   useEffect(() => {
     savedCallback.current = asyncFn;
   }, [asyncFn]);
+
+  useEffect(() => {
+    savedStopCondition.current = stopConditionFn;
+  }, [stopConditionFn]);
 
   useEffect(() => {
     let isMounted = true;
@@ -19,7 +24,7 @@ export function usePolling(asyncFn, intervalMs, stopConditionFn) {
       try {
         const result = await savedCallback.current();
 
-        if (isMounted && stopConditionFn && stopConditionFn(result)) {
+        if (isMounted && savedStopCondition.current && savedStopCondition.current(result)) {
           return; // stop polling
         }
       } catch (error) {
@@ -38,5 +43,5 @@ export function usePolling(asyncFn, intervalMs, stopConditionFn) {
       isMounted = false;
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
-  }, [intervalMs, stopConditionFn]);
+  }, [intervalMs]);
 }
