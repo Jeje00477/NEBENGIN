@@ -99,9 +99,13 @@ useEffect(() => {
               <Car className="w-6 h-6 text-gray-600" />
             </div>
             <div>
-              <p className="font-semibold text-gray-900">{profile?.vehicle?.merk_kendaraan}</p>
-              <p className="text-sm text-gray-500">{profile?.vehicle?.nomor_polisi} &middot; {profile?.vehicle?.warna_kendaraan}</p>
-              <p className="text-xs text-gray-400 mt-0.5">Kapasitas: {profile?.vehicle?.kapasitas_kursi} kursi</p>
+              <p className="font-semibold text-gray-900">{profile?.vehicle_merk || '-'}</p>
+                <p className="text-sm text-gray-500">
+                  {profile?.vehicle_plat_nomor || '-'} &middot; {profile?.vehicle_warna || '-'}
+                </p>
+                <p className="text-xs text-gray-400 mt-0.5">
+                  Kapasitas: {profile?.kapasitas_kursi || '-'} kursi
+                </p>
             </div>
           </div>
         </div>
