@@ -19,16 +19,16 @@ class DriverController extends Controller
         }
 
         return response()->json([
-            'is_available' => (bool)$profile->is_available,
-            'vehicle' => [
-                'merk_kendaraan' => $profile->vehicle_merk,
-                'nomor_polisi' => $profile->vehicle_plat_nomor,
-                'warna_kendaraan' => $profile->vehicle_warna,
-                'jenis_kendaraan' => $profile->vehicle_jenis,
-                'kapasitas_kursi' => $profile->kapasitas_kursi,
-            ],
+            'id'                 => $profile->id,
+            'driver_id'          => $profile->driver_id,
+            'is_available'       => (bool)$profile->is_available,
+            'vehicle_merk'       => $profile->vehicle_merk,
+            'vehicle_plat_nomor' => $profile->vehicle_plat_nomor,
+            'vehicle_warna'      => $profile->vehicle_warna,
+            'vehicle_jenis'      => $profile->vehicle_jenis,
+            'kapasitas_kursi'    => $profile->kapasitas_kursi,
             'stats' => [
-                'rating' => (float)$profile->rating,
+                'rating'      => (float)$profile->rating,
                 'total_trips' => (int)$profile->total_trips,
             ]
         ]);
@@ -56,16 +56,16 @@ class DriverController extends Controller
         );
 
         return response()->json([
-            'is_available' => (bool)$profile->is_available,
-            'vehicle' => [
-                'merk_kendaraan' => $profile->vehicle_merk,
-                'nomor_polisi' => $profile->vehicle_plat_nomor,
-                'warna_kendaraan' => $profile->vehicle_warna,
-                'jenis_kendaraan' => $profile->vehicle_jenis,
-                'kapasitas_kursi' => $profile->kapasitas_kursi,
-            ],
+            'id'                 => $profile->id,
+            'driver_id'          => $profile->driver_id,
+            'is_available'       => (bool)$profile->is_available,
+            'vehicle_merk'       => $profile->vehicle_merk,
+            'vehicle_plat_nomor' => $profile->vehicle_plat_nomor,
+            'vehicle_warna'      => $profile->vehicle_warna,
+            'vehicle_jenis'      => $profile->vehicle_jenis,
+            'kapasitas_kursi'    => $profile->kapasitas_kursi,
             'stats' => [
-                'rating' => (float)$profile->rating,
+                'rating'      => (float)$profile->rating,
                 'total_trips' => (int)$profile->total_trips,
             ]
         ]);
