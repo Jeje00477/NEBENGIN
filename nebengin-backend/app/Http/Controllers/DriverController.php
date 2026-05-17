@@ -13,25 +13,7 @@ class DriverController extends Controller
     public function profile(Request $request)
     {
         $profile = DriverProfile::where('driver_id', $request->user()->id)->first();
-
-        if (!$profile) {
-            return response()->json(null);
-        }
-
-        return response()->json([
-            'id'                 => $profile->id,
-            'driver_id'          => $profile->driver_id,
-            'is_available'       => (bool)$profile->is_available,
-            'vehicle_merk'       => $profile->vehicle_merk,
-            'vehicle_plat_nomor' => $profile->vehicle_plat_nomor,
-            'vehicle_warna'      => $profile->vehicle_warna,
-            'vehicle_jenis'      => $profile->vehicle_jenis,
-            'kapasitas_kursi'    => $profile->kapasitas_kursi,
-            'stats' => [
-                'rating'      => (float)$profile->rating,
-                'total_trips' => (int)$profile->total_trips,
-            ]
-        ]);
+        return response()->json($profile);
     }
 
     public function saveVehicle(Request $request)
@@ -46,29 +28,10 @@ class DriverController extends Controller
 
         $profile = DriverProfile::updateOrCreate(
             ['driver_id' => $request->user()->id],
-            [
-                'vehicle_jenis'      => $request->vehicle_jenis,
-                'vehicle_merk'       => $request->vehicle_merk,
-                'vehicle_warna'      => $request->vehicle_warna,
-                'vehicle_plat_nomor' => $request->vehicle_plat_nomor,
-                'kapasitas_kursi'    => $request->kapasitas_kursi,
-            ]
+            $request->only('vehicle_merk', 'vehicle_plat_nomor', 'vehicle_warna', 'vehicle_jenis', 'kapasitas_kursi')
         );
 
-        return response()->json([
-            'id'                 => $profile->id,
-            'driver_id'          => $profile->driver_id,
-            'is_available'       => (bool)$profile->is_available,
-            'vehicle_merk'       => $profile->vehicle_merk,
-            'vehicle_plat_nomor' => $profile->vehicle_plat_nomor,
-            'vehicle_warna'      => $profile->vehicle_warna,
-            'vehicle_jenis'      => $profile->vehicle_jenis,
-            'kapasitas_kursi'    => $profile->kapasitas_kursi,
-            'stats' => [
-                'rating'      => (float)$profile->rating,
-                'total_trips' => (int)$profile->total_trips,
-            ]
-        ]);
+        return response()->json($profile->fresh());
     }
 
     public function toggleAvailability(Request $request)

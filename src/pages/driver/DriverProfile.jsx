@@ -76,13 +76,13 @@ useEffect(() => {
         <div className="flex justify-center items-center gap-6 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-3 w-max mx-auto">
           <div className="text-center">
             <div className="flex items-center gap-1 mb-1">
-              <StarRating value={profile?.stats?.rating || 0} size="sm" />
+              <StarRating value={profile?.rating || 0} size="sm" />
             </div>
-            <p className="text-xs text-white font-medium">{profile?.stats?.rating || 0} Rating</p>
+            <p className="text-xs text-white font-medium">{profile?.rating || 0} Rating</p>
           </div>
           <div className="w-px h-8 bg-white/20"></div>
           <div className="text-center">
-            <p className="text-lg font-bold text-white leading-none mb-1">{profile?.stats?.total_trips || 0}</p>
+            <p className="text-lg font-bold text-white leading-none mb-1">{profile?.total_trips || 0}</p>
             <p className="text-xs text-white font-medium">Perjalanan</p>
           </div>
         </div>
