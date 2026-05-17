@@ -52,7 +52,7 @@ export default function RiderWaiting() {
   const checkStatus = async () => {
     const { data } = await pollRiderRequestStatus();
     if (data?.status === 'matched') {
-      navigate('/rider/driver-found', { state: { driver: data.driver, matchId: data.match_id } });
+      navigate('/rider/trip/active');
       return true; // stop polling
     }
     if (data?.status === 'timeout' || data?.status === 'cancelled') {

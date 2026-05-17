@@ -111,23 +111,27 @@ class RiderController extends Controller
         $trip = Trip::with(['driver.driverProfile'])
             ->where('rider_id', $request->user()->id)
             ->whereIn('status', ['on_the_way', 'picked_up'])
+            ->orderBy('id', 'desc')
             ->first();
 
         if (!$trip) {
+            @file_put_contents(base_path('storage/logs/debug_trip.txt'), "No trip found for rider " . $request->user()->id . "\nAll trips: " . json_encode(Trip::all()->toArray()));
             return response()->json(null);
         }
 
         $driver = $trip->driver;
-        $profile = $driver->driverProfile;
+        $profile = $driver ? $driver->driverProfile : null;
+
+        @file_put_contents(base_path('storage/logs/debug_trip.txt'), "Trip found: " . json_encode($trip->toArray()) . "\nDriver: " . json_encode($driver ? $driver->toArray() : null) . "\nProfile: " . json_encode($profile ? $profile->toArray() : null));
 
         return response()->json([
             'id' => $trip->id,
             'status' => $trip->status,
             'driver' => [
-                'id' => $driver->id,
-                'nama' => $driver->nama,
-                'avatar_url' => $driver->avatar_url,
-                'nomor_wa' => $driver->nomor_wa,
+                'id' => $driver ? $driver->id : null,
+                'nama' => $driver ? $driver->nama : null,
+                'avatar_url' => $driver ? $driver->avatar_url : null,
+                'nomor_wa' => $driver ? $driver->nomor_wa : null,
                 'vehicle' => $profile ? [
                     'jenis_kendaraan' => $profile->vehicle_jenis,
                     'merk_kendaraan' => $profile->vehicle_merk,
