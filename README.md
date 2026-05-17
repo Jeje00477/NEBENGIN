@@ -1,4 +1,4 @@
-Projek Akhir PAW (NEBENEGIN : Aplikasi mencari tebengan khusus mahasiswa)
+Projek Akhir PAW (NEBENGIN : Aplikasi mencari tebengan khusus mahasiswa)
 
 Anggota : 
 - Jeremiah Harmoni Keenan Pigawahi (245150201111008)
