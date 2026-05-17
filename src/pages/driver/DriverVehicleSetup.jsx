@@ -28,8 +28,8 @@ export default function DriverVehicleSetup() {
 };
 
     await saveDriverVehicle(payload);
-    setLoading(false);
-    navigate('/driver/dashboard');
+    await getDriverProfile();   
+    navigate('/driver/profile');
   };
 
   return (
