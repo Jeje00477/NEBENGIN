@@ -37,20 +37,20 @@ class DriverController extends Controller
     public function saveVehicle(Request $request)
     {
         $request->validate([
-            'jenis_kendaraan'  => 'nullable|string',
-            'merk_kendaraan'   => 'required|string',
-            'warna_kendaraan'  => 'required|string',
-            'nomor_polisi'     => 'required|string',
-            'kapasitas_kursi'  => 'nullable|integer'
+            'vehicle_merk'       => 'required|string',
+            'vehicle_plat_nomor' => 'required|string',
+            'vehicle_warna'      => 'required|string',
+            'vehicle_jenis'      => 'nullable|string',
+            'kapasitas_kursi'    => 'nullable|integer'
         ]);
 
         $profile = DriverProfile::updateOrCreate(
             ['driver_id' => $request->user()->id],
             [
-                'vehicle_jenis'      => $request->jenis_kendaraan,
-                'vehicle_merk'       => $request->merk_kendaraan,
-                'vehicle_warna'      => $request->warna_kendaraan,
-                'vehicle_plat_nomor' => $request->nomor_polisi,
+                'vehicle_jenis'      => $request->vehicle_jenis,
+                'vehicle_merk'       => $request->vehicle_merk,
+                'vehicle_warna'      => $request->vehicle_warna,
+                'vehicle_plat_nomor' => $request->vehicle_plat_nomor,
                 'kapasitas_kursi'    => $request->kapasitas_kursi,
             ]
         );
