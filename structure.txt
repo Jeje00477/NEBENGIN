@@ -1,0 +1,210 @@
+Folder PATH listing for volume OS
+Volume serial number is 0000003C 908F:21CA
+C:.
+¦   .env.example
+¦   .gitignore
+¦   index.html
+¦   package-lock.json
+¦   package.json
+¦   postcss.config.js
+¦   README.md
+¦   structure.txt
+¦   tailwind.config.js
+¦   vercel.json
+¦   vite.config.js
+¦   
++---nebengin-backend
+¦   ¦   .editorconfig
+¦   ¦   .env.example
+¦   ¦   .gitattributes
+¦   ¦   .gitignore
+¦   ¦   .nixpacks.toml
+¦   ¦   .npmrc
+¦   ¦   artisan
+¦   ¦   composer.json
+¦   ¦   composer.lock
+¦   ¦   package.json
+¦   ¦   phpunit.xml
+¦   ¦   Procfile
+¦   ¦   README.md
+¦   ¦   vite.config.js
+¦   ¦   
+¦   +---app
+¦   ¦   +---Http
+¦   ¦   ¦   +---Controllers
+¦   ¦   ¦           AuthController.php
+¦   ¦   ¦           Controller.php
+¦   ¦   ¦           DriverController.php
+¦   ¦   ¦           RiderController.php
+¦   ¦   ¦           TripController.php
+¦   ¦   ¦           
+¦   ¦   +---Models
+¦   ¦   ¦       DriverProfile.php
+¦   ¦   ¦       RiderRequest.php
+¦   ¦   ¦       Trip.php
+¦   ¦   ¦       User.php
+¦   ¦   ¦       
+¦   ¦   +---Providers
+¦   ¦           AppServiceProvider.php
+¦   ¦           
+¦   +---bootstrap
+¦   ¦   ¦   app.php
+¦   ¦   ¦   providers.php
+¦   ¦   ¦   
+¦   ¦   +---cache
+¦   ¦           .gitignore
+¦   ¦           packages.php
+¦   ¦           services.php
+¦   ¦           
+¦   +---config
+¦   ¦       app.php
+¦   ¦       auth.php
+¦   ¦       cache.php
+¦   ¦       cors.php
+¦   ¦       database.php
+¦   ¦       filesystems.php
+¦   ¦       logging.php
+¦   ¦       mail.php
+¦   ¦       queue.php
+¦   ¦       sanctum.php
+¦   ¦       services.php
+¦   ¦       session.php
+¦   ¦       view.php
+¦   ¦       
+¦   +---database
+¦   ¦   ¦   .gitignore
+¦   ¦   ¦   database.sqlite
+¦   ¦   ¦   
+¦   ¦   +---factories
+¦   ¦   ¦       UserFactory.php
+¦   ¦   ¦       
+¦   ¦   +---migrations
+¦   ¦   ¦       .gitkeep
+¦   ¦   ¦       
+¦   ¦   +---seeders
+¦   ¦           DatabaseSeeder.php
+¦   ¦           
+¦   +---public
+¦   ¦       .htaccess
+¦   ¦       favicon.ico
+¦   ¦       index.php
+¦   ¦       robots.txt
+¦   ¦       
+¦   +---resources
+¦   ¦   +---css
+¦   ¦   ¦       app.css
+¦   ¦   ¦       
+¦   ¦   +---js
+¦   ¦   ¦       app.js
+¦   ¦   ¦       
+¦   ¦   +---views
+¦   ¦           welcome.blade.php
+¦   ¦           
+¦   +---routes
+¦   ¦       api.php
+¦   ¦       console.php
+¦   ¦       web.php
+¦   ¦       
+¦   +---storage
+¦   ¦   +---app
+¦   ¦   ¦   ¦   .gitignore
+¦   ¦   ¦   ¦   
+¦   ¦   ¦   +---private
+¦   ¦   ¦   ¦       .gitignore
+¦   ¦   ¦   ¦       
+¦   ¦   ¦   +---public
+¦   ¦   ¦           .gitignore
+¦   ¦   ¦           
+¦   ¦   +---framework
+¦   ¦   ¦   ¦   .gitignore
+¦   ¦   ¦   ¦   
+¦   ¦   ¦   +---cache
+¦   ¦   ¦   ¦   ¦   .gitignore
+¦   ¦   ¦   ¦   ¦   
+¦   ¦   ¦   ¦   +---data
+¦   ¦   ¦   ¦           .gitignore
+¦   ¦   ¦   ¦           
+¦   ¦   ¦   +---sessions
+¦   ¦   ¦   ¦       .gitignore
+¦   ¦   ¦   ¦       
+¦   ¦   ¦   +---testing
+¦   ¦   ¦   ¦       .gitignore
+¦   ¦   ¦   ¦       
+¦   ¦   ¦   +---views
+¦   ¦   ¦           .gitignore
+¦   ¦   ¦           
+¦   ¦   +---logs
+¦   ¦           .gitignore
+¦   ¦           
+¦   +---tests
+¦       ¦   TestCase.php
+¦       ¦   
+¦       +---Feature
+¦       ¦       ExampleTest.php
+¦       ¦       
+¦       +---Unit
+¦               ExampleTest.php
+¦               
++---src
+    ¦   App.jsx
+    ¦   index.css
+    ¦   main.jsx
+    ¦   
+    +---components
+    ¦   +---common
+    ¦           Avatar.jsx
+    ¦           Badge.jsx
+    ¦           BottomNav.jsx
+    ¦           BottomSheet.jsx
+    ¦           Button.jsx
+    ¦           Input.jsx
+    ¦           MapDisplay.jsx
+    ¦           MapPicker.jsx
+    ¦           MapPlaceholder.jsx
+    ¦           Modal.jsx
+    ¦           StarRating.jsx
+    ¦           
+    +---context
+    ¦       AuthContext.jsx
+    ¦       
+    +---hooks
+    ¦       usePolling.js
+    ¦       
+    +---pages
+    ¦   ¦   Welcome.jsx
+    ¦   ¦   
+    ¦   +---auth
+    ¦   ¦       DriverAuth.jsx
+    ¦   ¦       RiderAuth.jsx
+    ¦   ¦       
+    ¦   +---driver
+    ¦   ¦       DriverActiveTrip.jsx
+    ¦   ¦       DriverDashboard.jsx
+    ¦   ¦       DriverHistory.jsx
+    ¦   ¦       DriverHistoryDetail.jsx
+    ¦   ¦       DriverProfile.jsx
+    ¦   ¦       DriverRiderList.jsx
+    ¦   ¦       DriverSetDestinationMap.jsx
+    ¦   ¦       DriverSetOriginMap.jsx
+    ¦   ¦       DriverTripComplete.jsx
+    ¦   ¦       DriverVehicleSetup.jsx
+    ¦   ¦       
+    ¦   +---rider
+    ¦           RiderActiveTrip.jsx
+    ¦           RiderDashboard.jsx
+    ¦           RiderDriverFound.jsx
+    ¦           RiderHistory.jsx
+    ¦           RiderHistoryDetail.jsx
+    ¦           RiderNoDriverFound.jsx
+    ¦           RiderProfile.jsx
+    ¦           RiderSetDestinationMap.jsx
+    ¦           RiderSetPickupMap.jsx
+    ¦           RiderTripComplete.jsx
+    ¦           RiderWaiting.jsx
+    ¦           
+    +---services
+    ¦       api.js
+    ¦       
+    +---utils
+            helpers.js
+            
