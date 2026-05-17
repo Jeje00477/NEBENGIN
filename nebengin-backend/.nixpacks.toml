@@ -5,9 +5,9 @@ nixPkgs = ["php82", "php82Extensions.pdo_pgsql", "nodejs"]
 cmds = [
   "composer install --no-dev --optimize-autoloader",
   "mkdir -p storage/framework/views",
-  "php artisan optimize:clear",
-  "php artisan config:cache",
-  "php artisan route:cache"
+  "mkdir -p bootstrap/cache",
+  "chmod -R 775 storage bootstrap/cache",
+  "php artisan optimize:clear"
 ]
 
 [start]
