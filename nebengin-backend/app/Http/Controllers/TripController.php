@@ -37,7 +37,31 @@ class TripController extends Controller
             abort(403);
         }
 
-        return response()->json($trip);
+        $user = $request->user();
+        $formatted = [
+            'id' => $trip->id,
+            'date' => $trip->completed_at ?? $trip->created_at,
+            'route_label' => $trip->route_label,
+            'status' => $trip->status === 'cancelled' ? 'dibatalkan' : $trip->status,
+        ];
+
+        if ($user->role === 'driver') {
+            $formatted['riders'] = [
+                [
+                    'nama' => $trip->rider->nama,
+                    'avatar_url' => $trip->rider->avatar_url,
+                    'rating_received' => $trip->rating_for_rider,
+                ]
+            ];
+        } else {
+            $formatted['driver'] = [
+                'nama' => $trip->driver->nama ?? 'Tidak Ada',
+                'avatar_url' => $trip->driver->avatar_url ?? null,
+                'rating_given' => $trip->rating_for_driver,
+            ];
+        }
+
+        return response()->json($formatted);
     }
 
     public function submitRating(Request $request, $tripId)

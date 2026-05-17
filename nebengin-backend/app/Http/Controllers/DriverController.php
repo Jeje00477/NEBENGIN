@@ -106,9 +106,19 @@ class DriverController extends Controller
     {
         $trips = Trip::with(['rider', 'request'])
             ->where('driver_id', $request->user()->id)
-            ->where('status', 'selesai')
-            ->orderBy('completed_at', 'desc')
-            ->get();
+            ->whereIn('status', ['selesai', 'cancelled'])
+            ->orderBy('id', 'desc')
+            ->get()
+            ->map(function ($trip) {
+                return [
+                    'id' => $trip->id,
+                    'date' => $trip->completed_at ?? $trip->created_at,
+                    'route_label' => $trip->route_label,
+                    'status' => $trip->status === 'cancelled' ? 'dibatalkan' : $trip->status,
+                    'rider_count' => 1,
+                    'rating_received' => $trip->rating_for_driver,
+                ];
+            });
 
         return response()->json($trips);
     }
