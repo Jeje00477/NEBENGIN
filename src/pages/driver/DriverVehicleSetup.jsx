@@ -19,7 +19,7 @@ export default function DriverVehicleSetup() {
     e.preventDefault();
     setLoading(true);
     
-   const payload = {
+  const payload = {
   vehicle_jenis: jenisKendaraan,
   vehicle_merk: merkKendaraan,
   vehicle_warna: warnaKendaraan,
