@@ -55,6 +55,14 @@ export default function RiderWaiting() {
       navigate('/rider/driver-found', { state: { driver: data.driver, matchId: data.match_id } });
       return true; // stop polling
     }
+    if (data?.status === 'timeout' || data?.status === 'cancelled') {
+      navigate('/rider/no-driver');
+      return true; // stop polling
+    }
+    if (data?.status === 'none') {
+      navigate('/rider/dashboard');
+      return true; // stop polling
+    }
     return false; // continue
   };
 

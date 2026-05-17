@@ -22,6 +22,11 @@ class Trip extends Model
         'completed_at'
     ];
 
+    protected $casts = [
+        'started_at' => 'datetime',
+        'completed_at' => 'datetime',
+    ];
+
     public function driver()
     {
         return $this->belongsTo(User::class, 'driver_id');

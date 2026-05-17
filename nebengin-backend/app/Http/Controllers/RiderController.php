@@ -64,6 +64,7 @@ class RiderController extends Controller
             $profile = $driver->driverProfile;
             return response()->json([
                 'status' => 'matched',
+                'match_id' => $riderReq->id,
                 'cancel_deadline' => $riderReq->cancel_deadline,
                 'driver' => [
                     'nama' => $driver->nama,

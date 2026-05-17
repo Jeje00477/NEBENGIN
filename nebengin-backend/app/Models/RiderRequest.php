@@ -22,6 +22,11 @@ class RiderRequest extends Model
         'cancel_deadline'
     ];
 
+    protected $casts = [
+        'expires_at' => 'datetime',
+        'cancel_deadline' => 'datetime',
+    ];
+
     public function rider()
     {
         return $this->belongsTo(User::class, 'rider_id');
