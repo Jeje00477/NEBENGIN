@@ -51,9 +51,19 @@ export default function DriverRiderList() {
   };
 
   const handleConfirmPickup = async () => {
-    await confirmPickup({ riderRequestIds: selectedRiders.map(r => r.id) });
-    // Save selected riders to session for Active Trip
-    sessionStorage.setItem('driver_active_riders', JSON.stringify(selectedRiders));
+    const { data } = await confirmPickup({ riderRequestIds: selectedRiders.map(r => r.id) });
+    
+    // Merge the real trip_id from database mapping
+    const updatedRiders = selectedRiders.map(rider => {
+      const match = data?.trips?.find(t => t.rider_id === rider.rider_id);
+      return {
+        ...rider,
+        trip_id: match ? match.trip_id : 501 // fallback to mock
+      };
+    });
+
+    // Save selected riders with real trip_ids to session for Active Trip
+    sessionStorage.setItem('driver_active_riders', JSON.stringify(updatedRiders));
     navigate('/driver/trip/active');
   };
 

@@ -15,11 +15,8 @@ export default function DriverActiveTrip() {
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [loadingComplete, setLoadingComplete] = useState(false);
   
-  // Trip ID is mock 501
-  const tripId = 501;
-
+  // Load from session
   useEffect(() => {
-    // Load from session
     const stored = sessionStorage.getItem('driver_active_riders');
     if (stored) {
       setRiders(JSON.parse(stored).map(r => ({ ...r, status: 'Menunggu Dijemput' })));
@@ -27,13 +24,21 @@ export default function DriverActiveTrip() {
   }, []);
 
   const handlePickup = async (riderId) => {
-    await markRiderPickedUp({ tripId, riderId });
+    const rider = riders.find(r => r.id === riderId);
+    const realTripId = rider?.trip_id || 501;
+    await markRiderPickedUp({ tripId: realTripId });
     setRiders(riders.map(r => r.id === riderId ? { ...r, status: 'Sudah Dijemput' } : r));
   };
 
   const handleComplete = async () => {
     setLoadingComplete(true);
-    await completeTrip({ tripId });
+    // Complete all real active trips for this driver
+    await Promise.all(
+      riders.map(rider => {
+        const realTripId = rider.trip_id || 501;
+        return completeTrip({ tripId: realTripId });
+      })
+    );
     sessionStorage.removeItem('driver_active_riders');
     setLoadingComplete(false);
     navigate('/driver/trip/complete', { state: { riders } });

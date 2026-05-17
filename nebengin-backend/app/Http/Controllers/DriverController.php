@@ -75,9 +75,9 @@ class DriverController extends Controller
             'riderRequestIds' => 'required|array'
         ]);
 
-        $tripIds = [];
+        $trips = [];
 
-        DB::transaction(function () use ($request, &$tripIds) {
+        DB::transaction(function () use ($request, &$trips) {
             foreach ($request->riderRequestIds as $reqId) {
                 $riderReq = RiderRequest::where('id', $reqId)->where('status', 'waiting')->lockForUpdate()->first();
                 if ($riderReq) {
@@ -94,12 +94,19 @@ class DriverController extends Controller
                         'route_label' => "{$riderReq->lokasi_jemput_label} -> {$riderReq->tujuan_label}",
                     ]);
 
-                    $tripIds[] = $trip->id;
+                    $trips[] = [
+                        'trip_id' => $trip->id,
+                        'rider_id' => $riderReq->rider_id,
+                        'request_id' => $riderReq->id,
+                    ];
                 }
             }
         });
 
-        return response()->json(['tripIds' => $tripIds]);
+        return response()->json([
+            'tripIds' => collect($trips)->pluck('trip_id'),
+            'trips' => $trips
+        ]);
     }
 
     public function history(Request $request)
