@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { calculateDirectionScore } from '../utils/helpers';
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
@@ -104,7 +105,48 @@ export async function toggleDriverAvailability() {
 export async function searchRiders(params) {
   try {
     const response = await api.get('/driver/search-riders', { params });
-    return { data: response.data, error: null };
+    
+    // Process and map each rider request
+    const riders = await Promise.all(
+      response.data.map(async (item) => {
+        // Prepare origin and destination objects for OSRM
+        const driverOrigin = { lat: parseFloat(params.origin_lat), lng: parseFloat(params.origin_lng) };
+        const riderPickup = { lat: parseFloat(item.pickup_lat), lng: parseFloat(item.pickup_lng) };
+        const destination = { lat: parseFloat(params.destination_lat), lng: parseFloat(params.destination_lng) };
+        
+        let directionScore = 0.85; // Fallback
+        let extraDistance = 1200;  // Fallback
+        
+        try {
+          const scoreResult = await calculateDirectionScore(driverOrigin, riderPickup, destination);
+          if (scoreResult) {
+            directionScore = scoreResult.score;
+            extraDistance = scoreResult.detour_meters;
+          }
+        } catch (e) {
+          console.warn("OSRM calculation failed, using fallback:", e);
+        }
+        
+        return {
+          id: item.request_id,
+          rider_id: item.rider_id,
+          nama: item.rider_nama,
+          avatar_url: item.rider_avatar,
+          rating: item.rider_avg_rating || 5.0,
+          nomor_wa: item.rider_nomor_wa,
+          lokasi_jemput_label: item.lokasi_jemput_label,
+          pickup_lat: item.pickup_lat,
+          pickup_lng: item.pickup_lng,
+          destination_lat: item.destination_lat,
+          destination_lng: item.destination_lng,
+          tujuan_label: item.tujuan_label,
+          direction_score: directionScore,
+          extra_distance_m: extraDistance
+        };
+      })
+    );
+    
+    return { data: riders, error: null };
   } catch (err) {
     return { data: null, error: err.response?.data?.message || 'Gagal mencari penumpang' };
   }
