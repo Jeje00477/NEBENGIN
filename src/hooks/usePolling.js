@@ -2,9 +2,9 @@ import { useEffect, useRef } from 'react';
 
 export function usePolling(asyncFn, intervalMs, stopConditionFn) {
   const savedCallback = useRef(asyncFn);
-  const intervalRef = useRef(null);
-
-  // Remember the latest callback if it changes.
+  const timeoutRef = useRef(null);
+  const isRunningRef = useRef(false);
+  
   useEffect(() => {
     savedCallback.current = asyncFn;
   }, [asyncFn]);
@@ -13,23 +13,30 @@ export function usePolling(asyncFn, intervalMs, stopConditionFn) {
     let isMounted = true;
 
     const tick = async () => {
+      if (isRunningRef.current) return;
+      isRunningRef.current = true;
+
       try {
         const result = await savedCallback.current();
+
         if (isMounted && stopConditionFn && stopConditionFn(result)) {
-          clearInterval(intervalRef.current);
+          return; // stop polling
         }
       } catch (error) {
         console.error('Polling error:', error);
+      } finally {
+        isRunningRef.current = false;
+
+        if (isMounted && intervalMs !== null) {
+          timeoutRef.current = setTimeout(tick, intervalMs);
+        }
       }
     };
-
-    // Execute immediately once
     tick();
 
-    // Then set interval
-    if (intervalMs !== null) {
-      intervalRef.current = setInterval(tick, intervalMs);
-      return () => clearInterval(intervalRef.current);
-    }
+    return () => {
+      isMounted = false;
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
   }, [intervalMs, stopConditionFn]);
 }
