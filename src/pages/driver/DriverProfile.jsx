@@ -26,16 +26,28 @@ export default function DriverProfile() {
   const [editNama, setEditNama] = useState('');
   const [saving, setSaving] = useState(false);
 
-  useEffect(() => {
-    async function loadData() {
-      const [driverRes, meRes] = await Promise.all([getDriverProfile(), getMe()]);
-      if (driverRes.data) setProfile(driverRes.data);
-      if (meRes.data) setUser(meRes.data);
+import { useLocation } from 'react-router-dom';
+
+const location = useLocation();
+
+useEffect(() => {
+  async function loadData() {
+    const [driverRes, meRes] = await Promise.all([
+      getDriverProfile(),
+      getMe()
+    ]);
+
+    if (driverRes.data) setProfile(driverRes.data);
+    if (meRes.data) {
+      setUser(meRes.data);
       setEditNama(meRes.data?.nama || '');
-      setLoading(false);
     }
-    loadData();
-  }, [setUser]);
+
+    setLoading(false);
+  }
+
+  loadData();
+}, [location]);   // 🔥 INI KUNCINYA
 
   const handleSaveProfile = async () => {
     setSaving(true);
