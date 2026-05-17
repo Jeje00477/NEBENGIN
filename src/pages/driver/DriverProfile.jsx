@@ -10,6 +10,7 @@ import Modal from '../../components/common/Modal';
 import Input from '../../components/common/Input';
 import Button from '../../components/common/Button';
 import { Edit2, Lock, LogOut, Repeat, Car, ChevronRight } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
 
 export default function DriverProfile() {
   const navigate = useNavigate();
@@ -26,7 +27,6 @@ export default function DriverProfile() {
   const [editNama, setEditNama] = useState('');
   const [saving, setSaving] = useState(false);
 
-import { useLocation } from 'react-router-dom';
 
 const location = useLocation();
 
