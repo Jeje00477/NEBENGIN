@@ -34,19 +34,26 @@ export default function RiderWaiting() {
 
   // Initial Request
   useEffect(() => {
-    async function initRequest() {
-      const { data } = await createRiderRequest({
-        pickup_lat: pickup.lat,
-        pickup_lng: pickup.lng,
-        lokasi_jemput_label: pickup.label,
-        destination_lat: destination.lat,
-        destination_lng: destination.lng,
-        tujuan_label: destination.label
-      });
-      if (data) setRequestId(data.requestId);
+  async function initRequest() {
+    const { data: existing } = await pollRiderRequestStatus();
+    if (existing?.status && existing.status !== 'none') {
+      setRequestId(existing.requestId);
+      return; 
     }
-    initRequest();
-  }, [pickup, destination]);
+    const { data } = await createRiderRequest({
+      pickup_lat: pickup.lat,
+      pickup_lng: pickup.lng,
+      lokasi_jemput_label: pickup.label,
+      destination_lat: destination.lat,
+      destination_lng: destination.lng,
+      tujuan_label: destination.label
+    });
+
+    if (data) setRequestId(data.requestId);
+  }
+
+  initRequest();
+}, []);
 
   // Polling
   const checkStatus = async () => {
