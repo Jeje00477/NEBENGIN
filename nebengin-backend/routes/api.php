@@ -18,6 +18,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/auth/logout',     [AuthController::class, 'logout']);
     Route::get ('/auth/me',         [AuthController::class, 'me']);
     Route::put ('/users/profile',   [AuthController::class, 'updateProfile']);
+    Route::put ('/users/change-password', [AuthController::class, 'changePassword']);
 
     // Driver
     Route::get ('/driver/profile',              [DriverController::class, 'profile']);

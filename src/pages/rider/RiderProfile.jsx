@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { getMe, updateProfile } from '../../services/api';
+import { getMe, updateProfile, changePassword } from '../../services/api';
 import BottomNav from '../../components/common/BottomNav';
 import Avatar from '../../components/common/Avatar';
 import BottomSheet from '../../components/common/BottomSheet';
@@ -24,6 +24,14 @@ export default function RiderProfile() {
   const [editNama, setEditNama] = useState('');
   const [saving, setSaving] = useState(false);
 
+  // Change Password state
+  const [oldPassword, setOldPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [changingPass, setChangingPass] = useState(false);
+  const [passError, setPassError] = useState('');
+  const [passSuccess, setPassSuccess] = useState('');
+
   useEffect(() => {
     async function loadData() {
       const { data } = await getMe();
@@ -42,6 +50,40 @@ export default function RiderProfile() {
     if (data) setUser(data);
     setSaving(false);
     setShowEditSheet(false);
+  };
+
+  const handleChangePassword = async () => {
+    setPassError('');
+    setPassSuccess('');
+    if (!oldPassword || !newPassword || !confirmPassword) {
+      setPassError('Semua field harus diisi.');
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      setPassError('Konfirmasi password baru tidak cocok.');
+      return;
+    }
+    if (newPassword.length < 8) {
+      setPassError('Password baru minimal 8 karakter.');
+      return;
+    }
+    
+    setChangingPass(true);
+    const { data, error } = await changePassword({ old_password: oldPassword, new_password: newPassword });
+    setChangingPass(false);
+    
+    if (error) {
+      setPassError(error);
+    } else {
+      setPassSuccess('Password berhasil diubah!');
+      setOldPassword('');
+      setNewPassword('');
+      setConfirmPassword('');
+      setTimeout(() => {
+        setShowPassSheet(false);
+        setPassSuccess('');
+      }, 1500);
+    }
   };
 
   const handleLogout = () => {
@@ -110,14 +152,16 @@ export default function RiderProfile() {
         </div>
       </BottomSheet>
 
-      {/* Change Password Sheet (Cosmetic) */}
-      <BottomSheet isOpen={showPassSheet} onClose={() => setShowPassSheet(false)} title="Ganti Password">
+      {/* Change Password Sheet */}
+      <BottomSheet isOpen={showPassSheet} onClose={() => { setShowPassSheet(false); setPassError(''); setPassSuccess(''); }} title="Ganti Password">
         <div className="space-y-4">
-          <Input label="Password Lama" type="password" />
-          <Input label="Password Baru" type="password" />
-          <Input label="Konfirmasi Password Baru" type="password" />
+          {passError && <p className="text-sm text-red-600 bg-red-50 p-2.5 rounded-xl font-medium">{passError}</p>}
+          {passSuccess && <p className="text-sm text-green-600 bg-green-50 p-2.5 rounded-xl font-medium">{passSuccess}</p>}
+          <Input label="Password Lama" type="password" value={oldPassword} onChange={e => setOldPassword(e.target.value)} required />
+          <Input label="Password Baru" type="password" value={newPassword} onChange={e => setNewPassword(e.target.value)} required />
+          <Input label="Konfirmasi Password Baru" type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} required />
           <div className="pt-4">
-            <Button label="Simpan Password" fullWidth onClick={() => setShowPassSheet(false)} className="bg-green-600" />
+            <Button label="Simpan Password" fullWidth onClick={handleChangePassword} loading={changingPass} className="bg-green-600" />
           </div>
         </div>
       </BottomSheet>

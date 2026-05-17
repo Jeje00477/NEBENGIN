@@ -73,6 +73,15 @@ export async function updateProfile(data) {
   }
 }
 
+export async function changePassword(passwordData) {
+  try {
+    const response = await api.put('/users/change-password', passwordData);
+    return { data: response.data, error: null };
+  } catch (err) {
+    return { data: null, error: err.response?.data?.message || 'Gagal mengubah password' };
+  }
+}
+
 // ─── DRIVER ──────────────────────────────────────────────────────────────────
 
 export async function saveDriverVehicle(vehicleData) {

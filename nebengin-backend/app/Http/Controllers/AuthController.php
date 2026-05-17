@@ -136,4 +136,35 @@ class AuthController extends Controller
 
         return response()->json($user);
     }
+
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'old_password' => 'required|string',
+            'new_password' => [
+                'required',
+                'string',
+                'min:8',
+                'regex:/[a-z]/',
+                'regex:/[A-Z]/',
+                'regex:/[0-9]/'
+            ],
+        ], [
+            'new_password.regex' => 'Password baru harus mengandung huruf kecil, huruf besar, dan angka.',
+            'new_password.min' => 'Password baru minimal 8 karakter.',
+        ]);
+
+        $user = $request->user();
+
+        if (!Hash::check($request->old_password, $user->password)) {
+            throw ValidationException::withMessages([
+                'old_password' => ['Password lama tidak cocok.'],
+            ]);
+        }
+
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+
+        return response()->json(['success' => true, 'message' => 'Password berhasil diubah.']);
+    }
 }
