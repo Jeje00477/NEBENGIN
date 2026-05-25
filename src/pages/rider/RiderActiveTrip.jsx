@@ -5,20 +5,48 @@ import BottomNav from '../../components/common/BottomNav';
 import MapDisplay from '../../components/common/MapDisplay';
 import Avatar from '../../components/common/Avatar';
 import Button from '../../components/common/Button';
-import { MessageCircle } from 'lucide-react';
+import { MessageCircle, Loader2 } from 'lucide-react';
 
 export default function RiderActiveTrip() {
   const navigate = useNavigate();
   const [trip, setTrip] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [loadingComplete, setLoadingComplete] = useState(false);
 
   useEffect(() => {
+    let isMounted = true;
     async function loadTrip() {
-      const { data } = await getRiderActiveTrip();
-      if (data) setTrip(data);
+      try {
+        const { data } = await getRiderActiveTrip();
+        if (!isMounted) return;
+
+        const isNullOrEmpty = !data || (data.data === null) || (Object.keys(data).length === 0);
+        const status = data?.status || data?.data?.status;
+        const isFinished = status === 'selesai' || status === 'cancelled';
+
+        if (isNullOrEmpty || isFinished) {
+          navigate('/rider/dashboard', { replace: true });
+          return;
+        }
+
+        if (status === 'on_the_way' || status === 'picked_up') {
+          setTrip(data);
+          setLoading(false);
+        } else {
+          navigate('/rider/dashboard', { replace: true });
+        }
+      } catch (error) {
+        console.error('Error loading active trip:', error);
+        if (isMounted) {
+          navigate('/rider/dashboard', { replace: true });
+        }
+      }
     }
     loadTrip();
-  }, []);
+    return () => {
+      isMounted = false;
+    };
+  }, [navigate]);
 
   const handleContactDriver = () => {
     if (trip?.driver?.nomor_wa) {
@@ -34,21 +62,20 @@ export default function RiderActiveTrip() {
     navigate('/rider/trip/complete', { state: { driver: trip.driver, tripId: trip.id } });
   };
 
-  if (!trip) return (
-    <div className="min-h-screen bg-gray-50 flex flex-col pb-24">
-      <div className="bg-white px-4 py-4 flex items-center justify-center border-b border-gray-100 sticky top-0 z-10">
-        <h1 className="text-lg font-semibold">Perjalanan Aktif</h1>
-      </div>
-      <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
-        <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-          <MessageCircle className="w-8 h-8 text-gray-400" />
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex flex-col pb-24">
+        <div className="bg-white px-4 py-4 flex items-center justify-center border-b border-gray-100 sticky top-0 z-10">
+          <h1 className="text-lg font-semibold">Perjalanan Aktif</h1>
         </div>
-        <h2 className="text-xl font-bold text-gray-900 mb-2">Belum Ada Perjalanan</h2>
-        <p className="text-gray-500 text-sm">Kamu sedang tidak dalam perjalanan. Cari tumpangan di Beranda.</p>
+        <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
+          <Loader2 className="w-8 h-8 text-green-600 animate-spin mb-4" />
+          <p className="text-gray-500 text-sm">Memuat perjalanan...</p>
+        </div>
+        <BottomNav role="rider" active="perjalanan" />
       </div>
-      <BottomNav role="rider" active="perjalanan" />
-    </div>
-  );
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col pb-24">

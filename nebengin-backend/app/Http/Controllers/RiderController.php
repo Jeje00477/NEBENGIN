@@ -116,7 +116,7 @@ class RiderController extends Controller
 
         if (!$trip) {
             @file_put_contents(base_path('storage/logs/debug_trip.txt'), "No trip found for rider " . $request->user()->id . "\nAll trips: " . json_encode(Trip::all()->toArray()));
-            return response()->json(null);
+            return response()->json(['data' => null]);
         }
 
         $driver = $trip->driver;
