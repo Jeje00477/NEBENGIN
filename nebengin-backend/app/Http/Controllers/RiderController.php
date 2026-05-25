@@ -40,7 +40,7 @@ class RiderController extends Controller
 
     public function pollStatus(Request $request)
     {
-        $riderReq = RiderRequest::with(['driver.driverProfile'])
+        $riderReq = RiderRequest::with(['driver.driverProfile', 'trip'])
             ->where('rider_id', $request->user()->id)
             ->whereIn('status', ['waiting', 'matched'])
             ->orderBy('id', 'desc')
@@ -60,6 +60,17 @@ class RiderController extends Controller
         }
 
         if ($riderReq->status === 'matched') {
+            $trip = $riderReq->trip;
+            if (!$trip || !in_array($trip->status, ['on_the_way', 'picked_up'])) {
+                if ($trip) {
+                    $riderReq->status = $trip->status;
+                } else {
+                    $riderReq->status = 'cancelled';
+                }
+                $riderReq->save();
+                return response()->json(['status' => 'none']);
+            }
+
             $driver = $riderReq->driver;
             $profile = $driver->driverProfile;
             return response()->json([
